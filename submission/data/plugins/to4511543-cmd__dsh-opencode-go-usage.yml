@@ -1,0 +1,6 @@
+url: https://github.com/to4511543-cmd/dsh-opencode-go-usage
+name: to4511543-cmd/dsh-opencode-go-usage
+category: usage
+description:
+  en: 'Pins your OpenCode Go subscription usage to the DSH session header: the rolling 5-hour, weekly and monthly windows, each with a colour-coded meter that turns amber past 50 percent and red past 80, plus the days left until the subscription renews. Hover for a panel carrying the renewal date, every window''s reset countdown, the credential source and a manual refresh. The API key stays on the host and every open tab shares one upstream poll.'
+  zh: '把 OpenCode Go 套餐用量钉在 DSH 会话标题栏上：5 小时滚动 / 每周 / 每月三个窗口，各带一条进度条，超过 50% 转琥珀、超过 80% 转红；末尾一并显示订阅还剩几天续费。鼠标悬停展开面板，显示续费日期、各窗口的重置倒计时、凭据来源和一键刷新。API key 只留在 host 侧，多个标签页共用一次上游轮询。'

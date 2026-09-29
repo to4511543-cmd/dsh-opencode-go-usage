@@ -1,0 +1,13 @@
+# Bundle patch for dsh-opencode-go-usage.
+#
+# This is what makes the package a PROFILE LAYER rather than an inert dependency.
+# DSH reconciles `dsh.profile.bundles` against installed packages: a dependency
+# whose manifest declares `dsh.bundle.patch` joins the layer stack, and this
+# insert row mounts the plugin. Without it the package installs and does nothing.
+#
+# Both `dsh.bundle` and `dsh.client` are declared on purpose: a manifest carrying
+# only `dsh.client` is rejected by the marketplace submission checker as
+# "not installable".
+- insert:
+    - id: dsh-opencode-go-usage
+      name: dsh-opencode-go-usage

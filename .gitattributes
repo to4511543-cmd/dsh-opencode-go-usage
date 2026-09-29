@@ -1,0 +1,9 @@
+# Normalize to LF in the repository regardless of the committer's platform:
+# these are source files, and CRLF churn would make every diff noisy.
+* text=auto eol=lf
+
+# Binary-ish / generated artifacts that must never be line-ending converted.
+*.png binary
+*.jpg binary
+*.mp4 binary
+*.7z binary

@@ -1,0 +1,67 @@
+{
+  "name": "dsh-opencode-go-usage",
+  "version": "0.1.0",
+  "description": "Shows OpenCode Go subscription usage (rolling 5h / weekly / monthly) in the DSH session header, with colour-coded meters and reset countdowns.",
+  "type": "module",
+  "main": "./lib/index.js",
+  "files": [
+    "lib",
+    "scripts",
+    "cordis.patch.yml",
+    "README.md",
+    "README.en.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "author": "to4511543-cmd",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/to4511543-cmd/dsh-opencode-go-usage.git"
+  },
+  "homepage": "https://github.com/to4511543-cmd/dsh-opencode-go-usage#readme",
+  "bugs": {
+    "url": "https://github.com/to4511543-cmd/dsh-opencode-go-usage/issues"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "cordis",
+    "opencode",
+    "opencode-go",
+    "usage",
+    "quota",
+    "rate-limit"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "check": "node scripts/verify-client-boot.mjs && node scripts/verify-host.mjs",
+    "check:live": "node scripts/verify-host.mjs --live",
+    "preview": "node scripts/preview.mjs"
+  },
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [],
+      "platform": "web"
+    },
+    "engines": {
+      "dsh": ">=0.1.5-rc.1"
+    }
+  }
+}
