@@ -46,6 +46,21 @@ host 把它单独暴露成 `subscription` 字段，并把还原出的锚点一�
 
 ## 安装
 
+### 方式一：双击 `install.cmd`（最省事，不用命令行）
+
+下载 **[install.cmd](https://github.com/to4511543-cmd/dsh-opencode-go-usage/raw/main/install.cmd)** → 双击 → 按提示重启 DSH。
+
+它会自己找到 DSH 和你机器上的 profile，**不需要 git、不需要管理员权限**，全程只从 GitHub 读取文件。
+黑窗口里会一步步打印它在做什么，不是黑箱操作。
+
+> ⚠️ 浏览器可能提示"不常下载的文件"——所有 `.cmd` 都会这样。你可以先用记事本打开看内容：
+> 它就是一段可读的脚本，里面没有任何编译过的二进制。
+>
+> 为什么不用 `github:` 安装？因为 pnpm 解析 `github:` 时会调用 `git ls-remote`，**机器上没 git 就会失败**。
+> 这个脚本改用 HTTPS 下载 zip 再 `link:` 注册，正是因为 `link:` 完全不需要 git。
+
+### 方式二：一行命令
+
 ```sh
 dsh plugin --profile <你的 profile> add github:to4511543-cmd/dsh-opencode-go-usage
 ```
@@ -62,7 +77,7 @@ dsh plugin --profile <你的 profile> add github:to4511543-cmd/dsh-opencode-go-u
 > 上图由 `npm run preview` 生成：它把插件自己的样式表从 `lib/client.js` 里抽出来，
 > 叠加 DSH 真实的主题变量，渲染成静态页面再截图。所以它就是实际渲染结果，不是示意图。
 
-### 不想用 git？离线装
+### 方式三：下载 zip 手动装
 
 下载仓库 zip，解压到 `~/.dsh/plugins/dsh-opencode-go-usage`，然后：
 

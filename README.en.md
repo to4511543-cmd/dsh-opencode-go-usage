@@ -39,6 +39,22 @@ The host exposes it as a separate `subscription` field and hands back the recove
 
 ## Install
 
+### Option 1: double-click `install.cmd` (easiest, no terminal)
+
+Download **[install.cmd](https://github.com/to4511543-cmd/dsh-opencode-go-usage/raw/main/install.cmd)** → double-click → restart DSH as prompted.
+
+It finds DSH and your profile on its own, needs **no git and no administrator rights**, and only ever reads
+files from GitHub. The console window prints each step as it goes, so it is not a black box.
+
+> ⚠️ Your browser may warn that the file "isn't commonly downloaded" — every `.cmd` gets that. Open it in
+> Notepad first if you like: it is readable script with no compiled binary inside.
+>
+> Why not a `github:` install? Because pnpm resolves that spec by shelling out to `git ls-remote`, so a
+> machine without git cannot install it at all. This script downloads the zip over HTTPS and registers it
+> with `link:` instead — precisely because `link:` needs no git.
+
+### Option 2: one command
+
 ```sh
 dsh plugin --profile <your profile> add github:to4511543-cmd/dsh-opencode-go-usage
 ```
@@ -56,7 +72,7 @@ Then **hard-refresh** the page (**Ctrl+Shift+R** — a plain F5 is not enough, t
 > `lib/client.js`, layers the harness's real theme tokens under it, and screenshots the result. It is
 > the actual rendering, not an illustration.
 
-### No git? Install from the zip
+### Option 3: download the zip and install manually
 
 Download the repository zip, extract it to `~/.dsh/plugins/dsh-opencode-go-usage`, then:
 

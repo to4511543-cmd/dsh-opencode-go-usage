@@ -2,6 +2,12 @@
 # these are source files, and CRLF churn would make every diff noisy.
 * text=auto eol=lf
 
+# ...except Windows batch files. cmd.exe requires CRLF and misparses an LF-only
+# .cmd — it runs off the end of the script and starts executing the text below
+# it — so this has to override the blanket rule above. Without this line git
+# would hand every user a broken copy of install.cmd.
+*.cmd text eol=crlf
+
 # Binary-ish / generated artifacts that must never be line-ending converted.
 *.png binary
 *.jpg binary

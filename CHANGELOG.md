@@ -40,6 +40,17 @@ First release.
 - `scripts/preview.mjs` — renders the badge to a static HTML page using the
   stylesheet extracted from the shipped bundle and the harness's own theme
   tokens, for visual inspection without a running harness.
+- `install.cmd` — a double-click installer for people who would rather not use a
+  terminal. It locates the harness and the profile, fetches the archive over
+  plain HTTPS, and registers it with a `link:` spec. It cannot use a `github:`
+  spec: pnpm resolves those by shelling out to `git ls-remote`, so a machine
+  without git could not install the plugin at all. `link:` has no such
+  dependency.
+
+  > Note for maintainers: `install.cmd` must keep CRLF line endings. cmd.exe
+  > misparses an LF-only batch file — it runs off the end and starts executing
+  > the text below it — so `.gitattributes` pins `*.cmd` to `eol=crlf` against
+  > the repository-wide `eol=lf` rule.
 
 [Unreleased]: https://github.com/to4511543-cmd/dsh-opencode-go-usage/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/to4511543-cmd/dsh-opencode-go-usage/releases/tag/v0.1.0
