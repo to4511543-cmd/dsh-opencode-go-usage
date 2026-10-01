@@ -2,11 +2,22 @@
 # these are source files, and CRLF churn would make every diff noisy.
 * text=auto eol=lf
 
-# ...except Windows batch files. cmd.exe requires CRLF and misparses an LF-only
-# .cmd — it runs off the end of the script and starts executing the text below
-# it — so this has to override the blanket rule above. Without this line git
-# would hand every user a broken copy of install.cmd.
-*.cmd text eol=crlf
+# ...except Windows batch files, which are stored as CRLF IN THE REPOSITORY.
+#
+# `-text` (not `text eol=crlf`) is deliberate. The latter normalizes the blob to
+# LF and only converts on checkout — but GitHub serves raw.githubusercontent.com
+# straight from the blob, so the "download install.cmd" link in the README would
+# hand every user an LF file. cmd.exe misparses an LF-only batch file: it runs
+# past `exit /b` and starts executing the text below it as commands. Verified by
+# running an LF copy of this exact script and watching it fail with
+# "'-------------------------------' is not recognized" while the CRLF copy
+# installed cleanly. `-text` stores the bytes as they are, so both the clone and
+# the raw download get a working file.
+#
+# Cost: git treats it as binary, so `git diff` shows "Binary files differ"
+# rather than a line diff. For one rarely-edited installer that is the right
+# trade — a broken download is much worse than a coarse diff.
+*.cmd -text
 
 # Binary-ish / generated artifacts that must never be line-ending converted.
 *.png binary
