@@ -41,10 +41,17 @@ The host exposes it as a separate `subscription` field and hands back the recove
 
 ### Option 1: double-click `install.cmd` (easiest, no terminal)
 
-Download **[install.cmd](https://github.com/to4511543-cmd/dsh-opencode-go-usage/raw/main/install.cmd)** → double-click → restart DSH as prompted.
+### 👉 **[⬇ Download install.cmd](https://github.com/to4511543-cmd/dsh-opencode-go-usage/releases/latest/download/install.cmd)**
+
+Then **double-click** it and restart DSH as prompted.
 
 It finds DSH and your profile on its own, needs **no git and no administrator rights**, and only ever reads
 files from GitHub. The console window prints each step as it goes, so it is not a black box.
+
+> **Why does the link point at Releases rather than at the repository file?**
+> `raw.githubusercontent.com` serves `text/plain` with no `Content-Disposition`, so a browser *displays*
+> the script instead of downloading it. Release assets carry
+> `Content-Disposition: attachment`, which downloads.
 
 > ⚠️ Your browser may warn that the file "isn't commonly downloaded" — every `.cmd` gets that. Open it in
 > Notepad first if you like: it is readable script with no compiled binary inside.
