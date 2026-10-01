@@ -43,6 +43,11 @@ The host exposes it as a separate `subscription` field and hands back the recove
 dsh plugin --profile <your profile> add github:to4511543-cmd/dsh-opencode-go-usage
 ```
 
+> **What goes in `<your profile>`?** Open `~/.dsh/profiles/` (on Windows, `C:\Users\<you>\.dsh\profiles\`) —
+> **the folder names inside are the profile names**. The desktop app usually uses `desktop`; a `dsh web`
+> command line usually uses `web`. Getting it wrong breaks nothing: you just installed into a different
+> profile, so re-run it with the right name.
+
 Then **hard-refresh** the page (**Ctrl+Shift+R** — a plain F5 is not enough, the client bundle is served `immutable`).
 
 ![The usage badge in the session header](docs/preview.png)

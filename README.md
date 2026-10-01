@@ -50,6 +50,11 @@ host 把它单独暴露成 `subscription` 字段，并把还原出的锚点一�
 dsh plugin --profile <你的 profile> add github:to4511543-cmd/dsh-opencode-go-usage
 ```
 
+> **`<你的 profile>` 填什么？** 打开 `C:\Users\<你的用户名>\.dsh\profiles\`（macOS / Linux 是 `~/.dsh/profiles/`），
+> **里面的文件夹名就是 profile 名**。用桌面版 App 的通常是 `desktop`，用 `dsh web` 命令行的通常是 `web`。
+>
+> 填错了不会弄坏什么，只是装到了另一个 profile 上——换回正确的名字再装一次即可。
+
 装完**硬刷新**页面（**Ctrl+Shift+R**，普通 F5 不够——客户端 bundle 带 `immutable` 缓存头）。
 
 ![会话标题栏里的用量徽章](docs/preview.png)
