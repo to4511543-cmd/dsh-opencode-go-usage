@@ -1,0 +1,89 @@
+# Publish a GitHub Release whenever a version tag is pushed.
+#
+# Why this exists: a raw.githubusercontent.com link serves text/plain with no
+# Content-Disposition, so a browser DISPLAYS install.cmd instead of downloading
+# it — the "download and double-click" instruction simply does not work from a
+# raw link. Release assets are served with `Content-Disposition: attachment`,
+# so they download. Verified against an unrelated project's release asset.
+#
+# This job builds the two artifacts people actually want:
+#   install.cmd                      — double-click installer
+#   dsh-opencode-go-usage-<ver>.zip  — the whole package, for a manual install
+#
+# It uses the preinstalled `gh` CLI rather than a third-party release action, so
+# the repository carries no extra supply-chain dependency.
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  # Lets a maintainer publish (or re-publish) without moving a tag.
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to publish, e.g. v0.1.0'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The archive must contain the branch tip, not the tag's commit, only
+          # when dispatching; a tag push already has the right thing checked out.
+          fetch-depth: 0
+
+      - name: Resolve the tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "name=${{ inputs.tag }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check install.cmd survived checkout as CRLF
+        # The single most fragile assumption in this repository: cmd.exe
+        # misparses an LF-only .cmd, and .gitattributes pins the file to
+        # `-text` so the stored bytes are CRLF. If a checkout ever converted it,
+        # we would be about to publish a broken installer — fail loudly instead.
+        run: |
+          if grep -qU $'\r' install.cmd; then
+            echo "install.cmd has CRLF line endings — good"
+          else
+            echo "::error::install.cmd has LF line endings; the published installer would be broken"
+            exit 1
+          fi
+
+      - name: Build the artifacts
+        run: |
+          set -euo pipefail
+          tag="${{ steps.tag.outputs.name }}"
+          version="${tag#v}"
+          mkdir -p dist
+          cp install.cmd dist/install.cmd
+          git archive --format=zip \
+            --prefix="dsh-opencode-go-usage/" \
+            -o "dist/dsh-opencode-go-usage-${version}.zip" \
+            HEAD
+          ls -la dist
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag="${{ steps.tag.outputs.name }}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "release $tag already exists — uploading assets to it"
+            gh release upload "$tag" dist/* --clobber
+          else
+            gh release create "$tag" dist/* \
+              --title "$tag" \
+              --generate-notes
+          fi
